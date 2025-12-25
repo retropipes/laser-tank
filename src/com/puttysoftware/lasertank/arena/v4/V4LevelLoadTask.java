@@ -31,62 +31,58 @@ public class V4LevelLoadTask extends Thread {
 
     // Constructors
     public V4LevelLoadTask(final String file) {
-        JProgressBar loadBar;
-        this.filename = file;
-        this.setName(StringLoader.loadString(StringConstants.NOTL_STRINGS_FILE,
-                StringConstants.NOTL_STRING_OLD_AG_LOADER_NAME));
-        this.loadFrame = new JFrame(
-                StringLoader.loadString(StringConstants.DIALOG_STRINGS_FILE,
-                        StringConstants.DIALOG_STRING_LOADING));
-        this.loadFrame.setIconImage(LogoManager.getIconLogo());
-        loadBar = new JProgressBar();
-        loadBar.setIndeterminate(true);
-        this.loadFrame.getContentPane().add(loadBar);
-        this.loadFrame.setResizable(false);
-        this.loadFrame
-                .setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-        this.loadFrame.pack();
+	JProgressBar loadBar;
+	this.filename = file;
+	this.setName(StringLoader.loadString(StringConstants.NOTL_STRINGS_FILE,
+		StringConstants.NOTL_STRING_OLD_AG_LOADER_NAME));
+	this.loadFrame = new JFrame(
+		StringLoader.loadString(StringConstants.DIALOG_STRINGS_FILE, StringConstants.DIALOG_STRING_LOADING));
+	this.loadFrame.setIconImage(LogoManager.getIconLogo());
+	loadBar = new JProgressBar();
+	loadBar.setIndeterminate(true);
+	this.loadFrame.getContentPane().add(loadBar);
+	this.loadFrame.setResizable(false);
+	this.loadFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+	this.loadFrame.pack();
     }
 
     // Methods
     @Override
     public void run() {
-        this.loadFrame.setVisible(true);
-        final Application app = LaserTank.getApplication();
-        app.getGameManager().setSavedGameFlag(false);
-        try (FileInputStream arenaFile = new FileInputStream(this.filename)) {
-            final AbstractArena gameArena = ArenaManager.createArena();
-            V4File.loadOldFile(gameArena, arenaFile);
-            arenaFile.close();
-            app.getArenaManager().setArena(gameArena);
-            final boolean playerExists = gameArena.doesPlayerExist(0);
-            if (playerExists) {
-                app.getGameManager().getPlayerManager().resetPlayerLocation();
-            }
-            gameArena.save();
-            // Final cleanup
-            final String lum = app.getArenaManager().getLastUsedArena();
-            app.getArenaManager().clearLastUsedFilenames();
-            app.getArenaManager().setLastUsedArena(lum);
-            app.updateLevelInfoList();
-            app.getEditor().arenaChanged();
-            MusicManager.arenaChanged();
-            CommonDialogs.showDialog(StringLoader.loadString(
-                    StringConstants.DIALOG_STRINGS_FILE,
-                    StringConstants.DIALOG_STRING_ARENA_LOADING_SUCCESS));
-            app.getArenaManager().handleDeferredSuccess(true);
-        } catch (final FileNotFoundException fnfe) {
-            CommonDialogs.showDialog(StringLoader.loadString(
-                    StringConstants.DIALOG_STRINGS_FILE,
-                    StringConstants.DIALOG_STRING_ARENA_LOADING_FAILED));
-            app.getArenaManager().handleDeferredSuccess(false);
-        } catch (final IOException ie) {
-            CommonDialogs.showDialog(ie.getMessage());
-            app.getArenaManager().handleDeferredSuccess(false);
-        } catch (final Exception ex) {
-            LaserTank.logError(ex);
-        } finally {
-            this.loadFrame.setVisible(false);
-        }
+	this.loadFrame.setVisible(true);
+	final Application app = LaserTank.getApplication();
+	app.getGameManager().setSavedGameFlag(false);
+	try (FileInputStream arenaFile = new FileInputStream(this.filename)) {
+	    final AbstractArena gameArena = ArenaManager.createArena();
+	    V4File.loadOldFile(gameArena, arenaFile);
+	    arenaFile.close();
+	    app.getArenaManager().setArena(gameArena);
+	    final boolean playerExists = gameArena.doesPlayerExist(0);
+	    if (playerExists) {
+		app.getGameManager().getPlayerManager().resetPlayerLocation();
+	    }
+	    gameArena.save();
+	    // Final cleanup
+	    final String lum = app.getArenaManager().getLastUsedArena();
+	    app.getArenaManager().clearLastUsedFilenames();
+	    app.getArenaManager().setLastUsedArena(lum);
+	    app.updateLevelInfoList();
+	    app.getEditor().arenaChanged();
+	    MusicManager.arenaChanged();
+	    CommonDialogs.showDialog(StringLoader.loadString(StringConstants.DIALOG_STRINGS_FILE,
+		    StringConstants.DIALOG_STRING_ARENA_LOADING_SUCCESS));
+	    app.getArenaManager().handleDeferredSuccess(true);
+	} catch (final FileNotFoundException fnfe) {
+	    CommonDialogs.showDialog(StringLoader.loadString(StringConstants.DIALOG_STRINGS_FILE,
+		    StringConstants.DIALOG_STRING_ARENA_LOADING_FAILED));
+	    app.getArenaManager().handleDeferredSuccess(false);
+	} catch (final IOException ie) {
+	    CommonDialogs.showDialog(ie.getMessage());
+	    app.getArenaManager().handleDeferredSuccess(false);
+	} catch (final Exception ex) {
+	    LaserTank.logError(ex);
+	} finally {
+	    this.loadFrame.setVisible(false);
+	}
     }
 }

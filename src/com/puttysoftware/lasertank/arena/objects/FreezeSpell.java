@@ -13,21 +13,19 @@ import com.puttysoftware.lasertank.resourcemanagers.SoundManager;
 public class FreezeSpell extends AbstractSpell {
     // Constructors
     public FreezeSpell() {
-        super();
+	super();
     }
 
     // Scriptability
     @Override
     public void postMoveAction(final int dirX, final int dirY, final int dirZ) {
-        SoundManager.playSound(SoundConstants.SOUND_FREEZE_SPELL);
-        LaserTank.getApplication().getArenaManager().getArena()
-                .fullScanFreezeGround();
-        LaserTank.getApplication().getGameManager().morph(new Empty(), dirX,
-                dirY, dirZ, this.getLayer());
+	SoundManager.playSound(SoundConstants.SOUND_FREEZE_SPELL);
+	LaserTank.getApplication().getArenaManager().getArena().fullScanFreezeGround();
+	LaserTank.getApplication().getGameManager().morph(new Empty(), dirX, dirY, dirZ, this.getLayer());
     }
 
     @Override
     public final int getStringBaseID() {
-        return 142;
+	return 142;
     }
 }

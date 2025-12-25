@@ -13,16 +13,15 @@ import com.puttysoftware.lasertank.arena.AbstractArena;
 
 public class CleanupTask {
     private CleanupTask() {
-        // Do nothing
+	// Do nothing
     }
 
     public static void cleanUp() {
-        try {
-            final File dirToDelete = new File(
-                    AbstractArena.getArenaTempFolder());
-            DirectoryUtilities.removeDirectory(dirToDelete);
-        } catch (final Throwable t) {
-            // Ignore
-        }
+	try {
+	    final File dirToDelete = new File(AbstractArena.getArenaTempFolder());
+	    DirectoryUtilities.removeDirectory(dirToDelete);
+	} catch (final Throwable t) {
+	    // Ignore
+	}
     }
 }

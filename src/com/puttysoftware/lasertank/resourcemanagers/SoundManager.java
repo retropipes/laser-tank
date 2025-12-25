@@ -13,33 +13,30 @@ import com.puttysoftware.lasertank.stringmanagers.StringLoader;
 import com.puttysoftware.wavplayer.WAVFactory;
 
 public class SoundManager {
-    private static final String DEFAULT_LOAD_PATH = StringLoader.loadString(
-            StringConstants.NOTL_STRINGS_FILE,
-            StringConstants.NOTL_STRING_SOUND_PATH);
+    private static final String DEFAULT_LOAD_PATH = StringLoader.loadString(StringConstants.NOTL_STRINGS_FILE,
+	    StringConstants.NOTL_STRING_SOUND_PATH);
     private static String LOAD_PATH = SoundManager.DEFAULT_LOAD_PATH;
     private static Class<?> LOAD_CLASS = SoundManager.class;
 
     private SoundManager() {
-        // Do nothing
+	// Do nothing
     }
 
     private static WAVFactory getSound(final int soundID) {
-        try {
-            final String filename = SoundConstants.SOUND_NAMES[soundID];
-            final URL url = SoundManager.LOAD_CLASS
-                    .getResource(SoundManager.LOAD_PATH + filename.toLowerCase()
-                            + StringLoader.loadString(
-                                    StringConstants.NOTL_STRINGS_FILE,
-                                    StringConstants.NOTL_STRING_SOUND_EXTENSION));
-            return WAVFactory.getNonLoopingResource(url);
-        } catch (final NullPointerException np) {
-            return null;
-        }
+	try {
+	    final String filename = SoundConstants.SOUND_NAMES[soundID];
+	    final URL url = SoundManager.LOAD_CLASS
+		    .getResource(SoundManager.LOAD_PATH + filename.toLowerCase() + StringLoader.loadString(
+			    StringConstants.NOTL_STRINGS_FILE, StringConstants.NOTL_STRING_SOUND_EXTENSION));
+	    return WAVFactory.getNonLoopingResource(url);
+	} catch (final NullPointerException np) {
+	    return null;
+	}
     }
 
     public static void playSound(final int soundID) {
-        if (PreferencesManager.getSoundsEnabled()) {
-            SoundManager.getSound(soundID).start();
-        }
+	if (PreferencesManager.getSoundsEnabled()) {
+	    SoundManager.getSound(soundID).start();
+	}
     }
 }

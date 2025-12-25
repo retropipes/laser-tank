@@ -11,26 +11,25 @@ import com.puttysoftware.lasertank.utilities.TypeConstants;
 public abstract class AbstractField extends AbstractArenaObject {
     // Constructors
     protected AbstractField() {
-        super(false);
-        this.type.set(TypeConstants.TYPE_FIELD);
+	super(false);
+	this.type.set(TypeConstants.TYPE_FIELD);
     }
 
     @Override
-    public abstract void postMoveAction(final int dirX, final int dirY,
-            int dirZ);
+    public abstract void postMoveAction(final int dirX, final int dirY, int dirZ);
 
     @Override
     public int getLayer() {
-        return ArenaConstants.LAYER_LOWER_OBJECTS;
+	return ArenaConstants.LAYER_LOWER_OBJECTS;
     }
 
     @Override
     public int getCustomProperty(final int propID) {
-        return AbstractArenaObject.DEFAULT_CUSTOM_VALUE;
+	return AbstractArenaObject.DEFAULT_CUSTOM_VALUE;
     }
 
     @Override
     public void setCustomProperty(final int propID, final int value) {
-        // Do nothing
+	// Do nothing
     }
 }

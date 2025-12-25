@@ -17,6 +17,6 @@ public class MaterialConstants {
     public static final int MATERIAL_MAGNETIC = 7;
 
     private MaterialConstants() {
-        // Do nothing
+	// Do nothing
     }
 }

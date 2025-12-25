@@ -14,20 +14,19 @@ import com.puttysoftware.lasertank.utilities.TankInventory;
 public class GreenKey extends AbstractKey {
     // Constructors
     public GreenKey() {
-        super();
+	super();
     }
 
     // Scriptability
     @Override
     public void postMoveAction(final int dirX, final int dirY, final int dirZ) {
-        SoundManager.playSound(SoundConstants.SOUND_GRAB);
-        TankInventory.addOneGreenKey();
-        LaserTank.getApplication().getGameManager().morph(new Empty(), dirX,
-                dirY, dirZ, this.getLayer());
+	SoundManager.playSound(SoundConstants.SOUND_GRAB);
+	TankInventory.addOneGreenKey();
+	LaserTank.getApplication().getGameManager().morph(new Empty(), dirX, dirY, dirZ, this.getLayer());
     }
 
     @Override
     public final int getStringBaseID() {
-        return 17;
+	return 17;
     }
 }

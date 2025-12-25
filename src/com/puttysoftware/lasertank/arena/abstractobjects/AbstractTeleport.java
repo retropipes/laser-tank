@@ -11,28 +11,27 @@ import com.puttysoftware.lasertank.utilities.TypeConstants;
 public abstract class AbstractTeleport extends AbstractArenaObject {
     // Constructors
     protected AbstractTeleport() {
-        super(false);
-        this.type.set(TypeConstants.TYPE_TELEPORT);
+	super(false);
+	this.type.set(TypeConstants.TYPE_TELEPORT);
     }
 
     public abstract int getDestinationFloor();
 
     @Override
-    public abstract void postMoveAction(final int dirX, final int dirY,
-            int dirZ);
+    public abstract void postMoveAction(final int dirX, final int dirY, int dirZ);
 
     @Override
     public int getLayer() {
-        return ArenaConstants.LAYER_LOWER_OBJECTS;
+	return ArenaConstants.LAYER_LOWER_OBJECTS;
     }
 
     @Override
     public int getCustomProperty(final int propID) {
-        return AbstractArenaObject.DEFAULT_CUSTOM_VALUE;
+	return AbstractArenaObject.DEFAULT_CUSTOM_VALUE;
     }
 
     @Override
     public void setCustomProperty(final int propID, final int value) {
-        // Do nothing
+	// Do nothing
     }
 }

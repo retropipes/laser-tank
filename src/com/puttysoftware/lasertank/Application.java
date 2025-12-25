@@ -46,210 +46,194 @@ public final class Application {
 
     // Constructors
     public Application() {
-        this.objects = new ArenaObjectList();
-        this.mode = Application.STATUS_NULL;
-        this.formerMode = Application.STATUS_NULL;
+	this.objects = new ArenaObjectList();
+	this.mode = Application.STATUS_NULL;
+	this.formerMode = Application.STATUS_NULL;
     }
 
     // Methods
     public void activeLanguageChanged() {
-        // Rebuild menus
-        this.menuMgr.unregisterAllModeManagers();
-        this.menuMgr.registerModeManager(this.guiMgr);
-        this.menuMgr.initMenus();
-        this.menuMgr.registerModeManager(this.gameMgr);
-        this.menuMgr.registerModeManager(this.editor);
-        this.menuMgr.registerModeManager(this.about);
-        // Fire hooks
-        this.getHelpManager().activeLanguageChanged();
-        this.getGameManager().activeLanguageChanged();
-        this.getEditor().activeLanguageChanged();
+	// Rebuild menus
+	this.menuMgr.unregisterAllModeManagers();
+	this.menuMgr.registerModeManager(this.guiMgr);
+	this.menuMgr.initMenus();
+	this.menuMgr.registerModeManager(this.gameMgr);
+	this.menuMgr.registerModeManager(this.editor);
+	this.menuMgr.registerModeManager(this.about);
+	// Fire hooks
+	this.getHelpManager().activeLanguageChanged();
+	this.getGameManager().activeLanguageChanged();
+	this.getEditor().activeLanguageChanged();
     }
 
     void postConstruct() {
-        // Create Managers
-        this.menuMgr = new MenuManager();
-        this.about = new AboutDialog(Application.getVersionString());
-        this.guiMgr = new GUIManager();
-        this.helpMgr = new HelpManager();
-        this.gameMgr = new GameManager();
-        this.editor = new ArenaEditor();
-        // Cache Logo
-        this.guiMgr.updateLogo();
+	// Create Managers
+	this.menuMgr = new MenuManager();
+	this.about = new AboutDialog(Application.getVersionString());
+	this.guiMgr = new GUIManager();
+	this.helpMgr = new HelpManager();
+	this.gameMgr = new GameManager();
+	this.editor = new ArenaEditor();
+	// Cache Logo
+	this.guiMgr.updateLogo();
     }
 
     void setInGUI() {
-        this.mode = Application.STATUS_GUI;
-        this.menuMgr.modeChanged(this.guiMgr);
+	this.mode = Application.STATUS_GUI;
+	this.menuMgr.modeChanged(this.guiMgr);
     }
 
     public void setInPrefs() {
-        this.formerMode = this.mode;
-        this.mode = Application.STATUS_PREFS;
-        this.menuMgr.modeChanged(null);
+	this.formerMode = this.mode;
+	this.mode = Application.STATUS_PREFS;
+	this.menuMgr.modeChanged(null);
     }
 
     public void setInGame() {
-        this.mode = Application.STATUS_GAME;
-        this.menuMgr.modeChanged(this.gameMgr);
+	this.mode = Application.STATUS_GAME;
+	this.menuMgr.modeChanged(this.gameMgr);
     }
 
     public void setInEditor() {
-        this.mode = Application.STATUS_EDITOR;
-        this.menuMgr.modeChanged(this.editor);
+	this.mode = Application.STATUS_EDITOR;
+	this.menuMgr.modeChanged(this.editor);
     }
 
     public void setInHelp() {
-        this.formerMode = this.mode;
-        this.mode = Application.STATUS_HELP;
-        this.menuMgr.modeChanged(null);
+	this.formerMode = this.mode;
+	this.mode = Application.STATUS_HELP;
+	this.menuMgr.modeChanged(null);
     }
 
     public int getMode() {
-        return this.mode;
+	return this.mode;
     }
 
     public int getFormerMode() {
-        return this.formerMode;
+	return this.formerMode;
     }
 
     void exitCurrentMode() {
-        if (this.mode == Application.STATUS_GUI) {
-            this.guiMgr.hideGUI();
-        } else if (this.mode == Application.STATUS_GAME) {
-            this.gameMgr.exitGame();
-        } else if (this.mode == Application.STATUS_EDITOR) {
-            this.editor.exitEditor();
-        }
+	if (this.mode == Application.STATUS_GUI) {
+	    this.guiMgr.hideGUI();
+	} else if (this.mode == Application.STATUS_GAME) {
+	    this.gameMgr.exitGame();
+	} else if (this.mode == Application.STATUS_EDITOR) {
+	    this.editor.exitEditor();
+	}
     }
 
     public void showMessage(final String msg) {
-        if (this.mode == Application.STATUS_EDITOR) {
-            this.getEditor().setStatusMessage(msg);
-        } else {
-            CommonDialogs.showDialog(msg);
-        }
+	if (this.mode == Application.STATUS_EDITOR) {
+	    this.getEditor().setStatusMessage(msg);
+	} else {
+	    CommonDialogs.showDialog(msg);
+	}
     }
 
     public MenuManager getMenuManager() {
-        return this.menuMgr;
+	return this.menuMgr;
     }
 
     public GUIManager getGUIManager() {
-        return this.guiMgr;
+	return this.guiMgr;
     }
 
     public GameManager getGameManager() {
-        return this.gameMgr;
+	return this.gameMgr;
     }
 
     public ArenaManager getArenaManager() {
-        if (this.arenaMgr == null) {
-            this.arenaMgr = new ArenaManager();
-        }
-        return this.arenaMgr;
+	if (this.arenaMgr == null) {
+	    this.arenaMgr = new ArenaManager();
+	}
+	return this.arenaMgr;
     }
 
     HelpManager getHelpManager() {
-        return this.helpMgr;
+	return this.helpMgr;
     }
 
     public ArenaEditor getEditor() {
-        return this.editor;
+	return this.editor;
     }
 
     AboutDialog getAboutDialog() {
-        return this.about;
+	return this.about;
     }
 
     private static String getVersionString() {
-        if (Application.isBetaModeEnabled()) {
-            return StringConstants.COMMON_STRING_EMPTY
-                    + Application.VERSION_MAJOR
-                    + StringConstants.COMMON_STRING_NOTL_PERIOD
-                    + Application.VERSION_MINOR
-                    + StringConstants.COMMON_STRING_NOTL_PERIOD
-                    + Application.VERSION_BUGFIX
-                    + StringLoader.loadString(
-                            StringConstants.MESSAGE_STRINGS_FILE,
-                            StringConstants.MESSAGE_STRING_BETA)
-                    + Application.VERSION_BETA;
-        } else {
-            return StringConstants.COMMON_STRING_EMPTY
-                    + Application.VERSION_MAJOR
-                    + StringConstants.COMMON_STRING_NOTL_PERIOD
-                    + Application.VERSION_MINOR
-                    + StringConstants.COMMON_STRING_NOTL_PERIOD
-                    + Application.VERSION_BUGFIX;
-        }
+	if (Application.isBetaModeEnabled()) {
+	    return StringConstants.COMMON_STRING_EMPTY + Application.VERSION_MAJOR
+		    + StringConstants.COMMON_STRING_NOTL_PERIOD + Application.VERSION_MINOR
+		    + StringConstants.COMMON_STRING_NOTL_PERIOD + Application.VERSION_BUGFIX
+		    + StringLoader.loadString(StringConstants.MESSAGE_STRINGS_FILE, StringConstants.MESSAGE_STRING_BETA)
+		    + Application.VERSION_BETA;
+	} else {
+	    return StringConstants.COMMON_STRING_EMPTY + Application.VERSION_MAJOR
+		    + StringConstants.COMMON_STRING_NOTL_PERIOD + Application.VERSION_MINOR
+		    + StringConstants.COMMON_STRING_NOTL_PERIOD + Application.VERSION_BUGFIX;
+	}
     }
 
     public static String getLogoVersionString() {
-        if (Application.isBetaModeEnabled()) {
-            return StringConstants.COMMON_STRING_EMPTY
-                    + Application.VERSION_MAJOR
-                    + StringConstants.COMMON_STRING_NOTL_PERIOD
-                    + Application.VERSION_MINOR
-                    + StringConstants.COMMON_STRING_NOTL_PERIOD
-                    + Application.VERSION_BUGFIX
-                    + StringConstants.COMMON_STRING_BETA_SHORT
-                    + Application.VERSION_BETA;
-        } else {
-            return StringConstants.COMMON_STRING_EMPTY
-                    + Application.VERSION_MAJOR
-                    + StringConstants.COMMON_STRING_NOTL_PERIOD
-                    + Application.VERSION_MINOR
-                    + StringConstants.COMMON_STRING_NOTL_PERIOD
-                    + Application.VERSION_BUGFIX;
-        }
+	if (Application.isBetaModeEnabled()) {
+	    return StringConstants.COMMON_STRING_EMPTY + Application.VERSION_MAJOR
+		    + StringConstants.COMMON_STRING_NOTL_PERIOD + Application.VERSION_MINOR
+		    + StringConstants.COMMON_STRING_NOTL_PERIOD + Application.VERSION_BUGFIX
+		    + StringConstants.COMMON_STRING_BETA_SHORT + Application.VERSION_BETA;
+	} else {
+	    return StringConstants.COMMON_STRING_EMPTY + Application.VERSION_MAJOR
+		    + StringConstants.COMMON_STRING_NOTL_PERIOD + Application.VERSION_MINOR
+		    + StringConstants.COMMON_STRING_NOTL_PERIOD + Application.VERSION_BUGFIX;
+	}
     }
 
     public JFrame getOutputFrame() {
-        try {
-            if (this.getMode() == Application.STATUS_PREFS) {
-                return PreferencesManager.getPrefFrame();
-            } else if (this.getMode() == Application.STATUS_GUI) {
-                return this.getGUIManager().getGUIFrame();
-            } else if (this.getMode() == Application.STATUS_GAME) {
-                return this.getGameManager().getOutputFrame();
-            } else if (this.getMode() == Application.STATUS_EDITOR) {
-                return this.getEditor().getOutputFrame();
-            } else {
-                return null;
-            }
-        } catch (final NullPointerException npe) {
-            return null;
-        }
+	try {
+	    if (this.getMode() == Application.STATUS_PREFS) {
+		return PreferencesManager.getPrefFrame();
+	    } else if (this.getMode() == Application.STATUS_GUI) {
+		return this.getGUIManager().getGUIFrame();
+	    } else if (this.getMode() == Application.STATUS_GAME) {
+		return this.getGameManager().getOutputFrame();
+	    } else if (this.getMode() == Application.STATUS_EDITOR) {
+		return this.getEditor().getOutputFrame();
+	    } else {
+		return null;
+	    }
+	} catch (final NullPointerException npe) {
+	    return null;
+	}
     }
 
     public ArenaObjectList getObjects() {
-        return this.objects;
+	return this.objects;
     }
 
     public String[] getLevelInfoList() {
-        return this.arenaMgr.getArena().getLevelInfoList();
+	return this.arenaMgr.getArena().getLevelInfoList();
     }
 
     public void updateLevelInfoList() {
-        JFrame loadFrame;
-        JProgressBar loadBar;
-        loadFrame = new JFrame(
-                StringLoader.loadString(StringConstants.DIALOG_STRINGS_FILE,
-                        StringConstants.DIALOG_STRING_UPDATING_LEVEL_INFO));
-        loadFrame.setIconImage(LogoManager.getIconLogo());
-        loadBar = new JProgressBar();
-        loadBar.setIndeterminate(true);
-        loadBar.setPreferredSize(new Dimension(600, 20));
-        loadFrame.getContentPane().add(loadBar);
-        loadFrame.setResizable(false);
-        loadFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-        loadFrame.pack();
-        loadFrame.setVisible(true);
-        this.arenaMgr.getArena().generateLevelInfoList();
-        loadFrame.setVisible(false);
+	JFrame loadFrame;
+	JProgressBar loadBar;
+	loadFrame = new JFrame(StringLoader.loadString(StringConstants.DIALOG_STRINGS_FILE,
+		StringConstants.DIALOG_STRING_UPDATING_LEVEL_INFO));
+	loadFrame.setIconImage(LogoManager.getIconLogo());
+	loadBar = new JProgressBar();
+	loadBar.setIndeterminate(true);
+	loadBar.setPreferredSize(new Dimension(600, 20));
+	loadFrame.getContentPane().add(loadBar);
+	loadFrame.setResizable(false);
+	loadFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+	loadFrame.pack();
+	loadFrame.setVisible(true);
+	this.arenaMgr.getArena().generateLevelInfoList();
+	loadFrame.setVisible(false);
     }
 
     private static boolean isBetaModeEnabled() {
-        return Application.VERSION_BETA > 0;
+	return Application.VERSION_BETA > 0;
     }
 }

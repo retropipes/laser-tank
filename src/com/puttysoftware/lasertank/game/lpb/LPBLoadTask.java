@@ -28,42 +28,39 @@ class LPBLoadTask extends Thread {
 
     // Constructors
     LPBLoadTask(final String file) {
-        JProgressBar loadBar;
-        this.filename = file;
-        this.setName(StringLoader.loadString(StringConstants.NOTL_STRINGS_FILE,
-                StringConstants.NOTL_STRING_PLAYBACK_LOADER_NAME));
-        this.loadFrame = new JFrame(
-                StringLoader.loadString(StringConstants.DIALOG_STRINGS_FILE,
-                        StringConstants.DIALOG_STRING_LOADING));
-        this.loadFrame.setIconImage(LogoManager.getIconLogo());
-        loadBar = new JProgressBar();
-        loadBar.setIndeterminate(true);
-        this.loadFrame.getContentPane().add(loadBar);
-        this.loadFrame.setResizable(false);
-        this.loadFrame
-                .setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-        this.loadFrame.pack();
+	JProgressBar loadBar;
+	this.filename = file;
+	this.setName(StringLoader.loadString(StringConstants.NOTL_STRINGS_FILE,
+		StringConstants.NOTL_STRING_PLAYBACK_LOADER_NAME));
+	this.loadFrame = new JFrame(
+		StringLoader.loadString(StringConstants.DIALOG_STRINGS_FILE, StringConstants.DIALOG_STRING_LOADING));
+	this.loadFrame.setIconImage(LogoManager.getIconLogo());
+	loadBar = new JProgressBar();
+	loadBar.setIndeterminate(true);
+	this.loadFrame.getContentPane().add(loadBar);
+	this.loadFrame.setResizable(false);
+	this.loadFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+	this.loadFrame.pack();
     }
 
     // Methods
     @Override
     public void run() {
-        this.loadFrame.setVisible(true);
-        final Application app = LaserTank.getApplication();
-        app.getGameManager().setSavedGameFlag(false);
-        try (FileInputStream arenaFile = new FileInputStream(this.filename)) {
-            LPBFile.loadLPB(arenaFile);
-            arenaFile.close();
-        } catch (final FileNotFoundException fnfe) {
-            CommonDialogs.showDialog(
-                    StringLoader.loadString(StringConstants.GAME_STRINGS_FILE,
-                            StringConstants.GAME_STRING_PLAYBACK_LOAD_FAILED));
-        } catch (final IOException ie) {
-            CommonDialogs.showDialog(ie.getMessage());
-        } catch (final Exception ex) {
-            LaserTank.logError(ex);
-        } finally {
-            this.loadFrame.setVisible(false);
-        }
+	this.loadFrame.setVisible(true);
+	final Application app = LaserTank.getApplication();
+	app.getGameManager().setSavedGameFlag(false);
+	try (FileInputStream arenaFile = new FileInputStream(this.filename)) {
+	    LPBFile.loadLPB(arenaFile);
+	    arenaFile.close();
+	} catch (final FileNotFoundException fnfe) {
+	    CommonDialogs.showDialog(StringLoader.loadString(StringConstants.GAME_STRINGS_FILE,
+		    StringConstants.GAME_STRING_PLAYBACK_LOAD_FAILED));
+	} catch (final IOException ie) {
+	    CommonDialogs.showDialog(ie.getMessage());
+	} catch (final Exception ex) {
+	    LaserTank.logError(ex);
+	} finally {
+	    this.loadFrame.setVisible(false);
+	}
     }
 }

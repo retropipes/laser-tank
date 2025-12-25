@@ -18,21 +18,19 @@ public class ExternalMusicSaveTask extends Thread {
 
     // Constructors
     public ExternalMusicSaveTask(final String path, final String file) {
-        this.filename = file;
-        this.pathname = path;
-        this.setName("External Music Writer");
+	this.filename = file;
+	this.pathname = path;
+	this.setName("External Music Writer");
     }
 
     @Override
     public void run() {
-        try {
-            final String basePath = LaserTank.getApplication().getArenaManager()
-                    .getArena().getArenaTempMusicFolder();
-            FileUtilities.copyFile(new File(this.pathname + this.filename),
-                    new File(basePath + File.separator
-                            + this.filename.toLowerCase()));
-        } catch (final Exception ex) {
-            LaserTank.logError(ex);
-        }
+	try {
+	    final String basePath = LaserTank.getApplication().getArenaManager().getArena().getArenaTempMusicFolder();
+	    FileUtilities.copyFile(new File(this.pathname + this.filename),
+		    new File(basePath + File.separator + this.filename.toLowerCase()));
+	} catch (final Exception ex) {
+	    LaserTank.logError(ex);
+	}
     }
 }

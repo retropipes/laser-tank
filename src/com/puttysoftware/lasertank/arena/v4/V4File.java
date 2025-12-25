@@ -15,32 +15,30 @@ import com.puttysoftware.lasertank.utilities.InvalidArenaException;
 
 class V4File {
     private V4File() {
-        // Do nothing
+	// Do nothing
     }
 
-    static void loadOldFile(final AbstractArena a, final FileInputStream file)
-            throws InvalidArenaException {
-        CurrentArenaData t = null;
-        int levelCount = 0;
-        do {
-            a.switchLevel(levelCount);
-            t = V4FileLevel.loadAndConvert(file, a);
-            if (t != null) {
-                levelCount++;
-                a.setData(t, levelCount);
-                final int[] found = a.findPlayer(1);
-                if (found == null) {
-                    throw new InvalidArenaException(StringLoader.loadString(
-                            StringConstants.ERROR_STRINGS_FILE,
-                            StringConstants.ERROR_STRING_TANK_LOCATION));
-                } else {
-                    a.setStartColumn(0, found[0]);
-                    a.setStartRow(0, found[1]);
-                    a.setStartFloor(0, found[2]);
-                }
-                a.save();
-                a.switchLevel(levelCount);
-            }
-        } while (t != null);
+    static void loadOldFile(final AbstractArena a, final FileInputStream file) throws InvalidArenaException {
+	CurrentArenaData t = null;
+	int levelCount = 0;
+	do {
+	    a.switchLevel(levelCount);
+	    t = V4FileLevel.loadAndConvert(file, a);
+	    if (t != null) {
+		levelCount++;
+		a.setData(t, levelCount);
+		final int[] found = a.findPlayer(1);
+		if (found == null) {
+		    throw new InvalidArenaException(StringLoader.loadString(StringConstants.ERROR_STRINGS_FILE,
+			    StringConstants.ERROR_STRING_TANK_LOCATION));
+		} else {
+		    a.setStartColumn(0, found[0]);
+		    a.setStartRow(0, found[1]);
+		    a.setStartFloor(0, found[2]);
+		}
+		a.save();
+		a.switchLevel(levelCount);
+	    }
+	} while (t != null);
     }
 }

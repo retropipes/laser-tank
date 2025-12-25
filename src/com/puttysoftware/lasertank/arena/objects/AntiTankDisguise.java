@@ -19,39 +19,39 @@ public class AntiTankDisguise extends AbstractCharacter {
 
     // Constructors
     public AntiTankDisguise(final int number) {
-        super(number);
-        this.disguiseLeft = AntiTankDisguise.DISGUISE_LENGTH;
-        this.activateTimer(1);
-        this.setDirection(Direction.NORTH);
-        this.setFrameNumber(1);
+	super(number);
+	this.disguiseLeft = AntiTankDisguise.DISGUISE_LENGTH;
+	this.activateTimer(1);
+	this.setDirection(Direction.NORTH);
+	this.setFrameNumber(1);
     }
 
     public AntiTankDisguise(final Direction dir, final int number) {
-        super(number);
-        this.disguiseLeft = AntiTankDisguise.DISGUISE_LENGTH;
-        this.activateTimer(1);
-        this.setDirection(dir);
-        this.setFrameNumber(1);
+	super(number);
+	this.disguiseLeft = AntiTankDisguise.DISGUISE_LENGTH;
+	this.activateTimer(1);
+	this.setDirection(dir);
+	this.setFrameNumber(1);
     }
 
     @Override
     public final int getStringBaseID() {
-        return 0;
+	return 0;
     }
 
     @Override
     public boolean acceptTick(final int actionType) {
-        return actionType == ActionConstants.ACTION_MOVE;
+	return actionType == ActionConstants.ACTION_MOVE;
     }
 
     @Override
     public void timerExpiredAction(final int locX, final int locY) {
-        this.disguiseLeft--;
-        if (this.disguiseLeft == 0) {
-            SoundManager.playSound(SoundConstants.SOUND_DISRUPT_END);
-            LaserTank.getApplication().getGameManager().setNormalTank();
-        } else {
-            this.activateTimer(1);
-        }
+	this.disguiseLeft--;
+	if (this.disguiseLeft == 0) {
+	    SoundManager.playSound(SoundConstants.SOUND_DISRUPT_END);
+	    LaserTank.getApplication().getGameManager().setNormalTank();
+	} else {
+	    this.activateTimer(1);
+	}
     }
 }

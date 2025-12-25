@@ -14,25 +14,24 @@ import com.puttysoftware.lasertank.utilities.TankInventory;
 public class BlueDoor extends AbstractDoor {
     // Constructors
     public BlueDoor() {
-        super(new BlueKey());
+	super(new BlueKey());
     }
 
     // Scriptability
     @Override
     public boolean isConditionallySolid() {
-        return TankInventory.getBlueKeysLeft() < 1;
+	return TankInventory.getBlueKeysLeft() < 1;
     }
 
     @Override
     public void postMoveAction(final int dirX, final int dirY, final int dirZ) {
-        SoundManager.playSound(SoundConstants.SOUND_UNLOCK);
-        TankInventory.useBlueKey();
-        LaserTank.getApplication().getGameManager().morph(new Empty(), dirX,
-                dirY, dirZ, this.getLayer());
+	SoundManager.playSound(SoundConstants.SOUND_UNLOCK);
+	TankInventory.useBlueKey();
+	LaserTank.getApplication().getGameManager().morph(new Empty(), dirX, dirY, dirZ, this.getLayer());
     }
 
     @Override
     public final int getStringBaseID() {
-        return 4;
+	return 4;
     }
 }

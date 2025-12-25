@@ -19,34 +19,33 @@ public class ExternalMusicLoadTask extends Thread {
 
     // Constructors
     public ExternalMusicLoadTask(final String file) {
-        this.filename = file;
-        this.setName("External Music Loader");
+	this.filename = file;
+	this.setName("External Music Loader");
     }
 
     // Methods
     @Override
     public void run() {
-        final Application app = LaserTank.getApplication();
-        final AbstractArena a = app.getArenaManager().getArena();
-        try {
-            this.gameExternalMusic = new ExternalMusic();
-            this.gameExternalMusic.setName(
-                    ExternalMusicLoadTask.getFileNameOnly(this.filename));
-            this.gameExternalMusic.setPath(a.getArenaTempMusicFolder());
-            MusicManager.setExternalMusic(this.gameExternalMusic);
-        } catch (final Exception ex) {
-            LaserTank.logError(ex);
-        }
+	final Application app = LaserTank.getApplication();
+	final AbstractArena a = app.getArenaManager().getArena();
+	try {
+	    this.gameExternalMusic = new ExternalMusic();
+	    this.gameExternalMusic.setName(ExternalMusicLoadTask.getFileNameOnly(this.filename));
+	    this.gameExternalMusic.setPath(a.getArenaTempMusicFolder());
+	    MusicManager.setExternalMusic(this.gameExternalMusic);
+	} catch (final Exception ex) {
+	    LaserTank.logError(ex);
+	}
     }
 
     private static String getFileNameOnly(final String s) {
-        String fno = null;
-        final int i = s.lastIndexOf(File.separatorChar);
-        if (i > 0 && i < s.length() - 1) {
-            fno = s.substring(i + 1);
-        } else {
-            fno = s;
-        }
-        return fno;
+	String fno = null;
+	final int i = s.lastIndexOf(File.separatorChar);
+	if (i > 0 && i < s.length() - 1) {
+	    fno = s.substring(i + 1);
+	} else {
+	    fno = s;
+	}
+	return fno;
     }
 }

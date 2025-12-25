@@ -11,10 +11,10 @@ public class InvalidArenaException extends Exception {
 
     // Constructors
     public InvalidArenaException() {
-        super();
+	super();
     }
 
     public InvalidArenaException(final String msg) {
-        super(msg);
+	super(msg);
     }
 }

@@ -13,19 +13,18 @@ import com.puttysoftware.lasertank.resourcemanagers.SoundManager;
 public class PowerBolt extends AbstractField {
     // Constructors
     public PowerBolt() {
-        super();
+	super();
     }
 
     @Override
     public void postMoveAction(final int dirX, final int dirY, final int dirZ) {
-        SoundManager.playSound(SoundConstants.SOUND_POWERFUL);
-        LaserTank.getApplication().getGameManager().morph(new Empty(), dirX,
-                dirY, dirZ, this.getLayer());
-        LaserTank.getApplication().getGameManager().setPowerfulTank();
+	SoundManager.playSound(SoundConstants.SOUND_POWERFUL);
+	LaserTank.getApplication().getGameManager().morph(new Empty(), dirX, dirY, dirZ, this.getLayer());
+	LaserTank.getApplication().getGameManager().setPowerfulTank();
     }
 
     @Override
     public final int getStringBaseID() {
-        return 139;
+	return 139;
     }
 }

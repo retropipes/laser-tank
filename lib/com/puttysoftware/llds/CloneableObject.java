@@ -3,12 +3,12 @@ package com.puttysoftware.llds;
 public class CloneableObject implements Cloneable {
     // Constructor
     public CloneableObject() {
-        super();
+	super();
     }
 
     // Method
     @Override
     public Object clone() {
-        return new CloneableObject();
+	return new CloneableObject();
     }
 }
